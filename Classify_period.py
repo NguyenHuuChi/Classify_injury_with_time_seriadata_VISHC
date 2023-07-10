@@ -130,17 +130,17 @@ def process_file(file_path,mass):
         Initial_swing_right.pop()
         Mid_swing_right.pop()
         for i in range(len(left_circle)):
-            total_frame=left_end[i]-left_start[i]
+            total_frame=left_end[i]-left_start[i]+1
             percent_stance_left.append((Initial_swing_left[i]-stance_left[i])/total_frame)
             percent_Initial_swing_left.append((Mid_swing_left[i]-Initial_swing_left[i])/total_frame)
             percent_mid_swing_left.append((Termial_swing_left[i]-Mid_swing_left[i])/total_frame)
-            percent_termial_swing_left.append((left_end[i]-Termial_swing_left[i])/total_frame)
+            percent_termial_swing_left.append((left_end[i]-Termial_swing_left[i]+1)/total_frame)
         for i in range(len(right_circle)):
-            total_frame=right_end[i]-right_start[i]
+            total_frame=right_end[i]-right_start[i]+1
             percent_stance_right.append((Initial_swing_right[i]-stance_right[i])/total_frame)
             percent_Initial_swing_right.append((Mid_swing_right[i]-Initial_swing_right[i])/total_frame)
             percent_mid_swing_right.append((Termial_swing_right[i]-Mid_swing_right[i])/total_frame)
-            percent_termial_swing_right.append((right_end[i]-Termial_swing_right[i])/total_frame)
+            percent_termial_swing_right.append((right_end[i]-Termial_swing_right[i]+1)/total_frame)
 
     # right
     elif check_start_left_right==1 : 
@@ -190,17 +190,17 @@ def process_file(file_path,mass):
 
 
         for i in range(len(left_circle)):
-            total_frame=left_end[i]-left_start[i]
+            total_frame=left_end[i]-left_start[i]+1
             percent_stance_left.append((Initial_swing_left[i]-stance_left[i])/total_frame)
             percent_Initial_swing_left.append((Mid_swing_left[i]-Initial_swing_left[i])/total_frame)
             percent_mid_swing_left.append((Termial_swing_left[i]-Mid_swing_left[i])/total_frame)
-            percent_termial_swing_left.append((left_end[i]-Termial_swing_left[i])/total_frame)
+            percent_termial_swing_left.append((left_end[i]-Termial_swing_left[i]+1)/total_frame)
         for i in range(len(right_circle)):
-            total_frame=right_end[i]-right_start[i]
+            total_frame=right_end[i]-right_start[i]+1
             percent_stance_right.append((Initial_swing_right[i]-stance_right[i])/total_frame)
             percent_Initial_swing_right.append((Mid_swing_right[i]-Initial_swing_right[i])/total_frame)
             percent_mid_swing_right.append((Termial_swing_right[i]-Mid_swing_right[i])/total_frame)
-            percent_termial_swing_right.append((right_end[i]-Termial_swing_right[i])/total_frame)
+            percent_termial_swing_right.append((right_end[i]-Termial_swing_right[i]+1)/total_frame)
         
     data_out_right={"Right cycle":right_circle, "Right start":right_start , "Right end" : right_end, 
             "Stance right " :stance_right,"percent_stance_right":percent_stance_right  ,
