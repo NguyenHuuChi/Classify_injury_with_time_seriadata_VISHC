@@ -360,33 +360,39 @@ def interp_shampe_many_data(list_data_cycle):
 # interp_data_cycle
 def plot_average_with_error(interp_data_cycle,split_cycle,title1):
     #calculate the average of period
-    average_split_cycle = np.mean(split_cycle, axis=0)
-    
+    average_split_cycle_left = np.mean(split_cycle[0], axis=0)
+    average_split_cycle_right = np.mean(split_cycle[1], axis=0)
 
     # Calculate the average and standard error
-    average = np.mean(interp_data_cycle, axis=0)
-    std_devi = np.std(interp_data_cycle, axis=0) 
+    average_left = np.mean(interp_data_cycle[0], axis=0)
+    average_right = np.mean(interp_data_cycle[1], axis=0)
     
     phase_labels =["Stance phase","Initial swing","Mid swing", "Termial swing"]
     # Create x-axis values
-    x = np.arange(len(average))
+    x_left = np.arange(len(average_left))
+    x_right = np.arange(len(average_right))
 
     # Plot the average with shaded standard error using Seaborn
     plt.figure(figsize=(10, 6))
 
-    for i, a in enumerate(average_split_cycle):
+    for i, a in enumerate(average_split_cycle_left):
         plt.axvline(x=a , color='red', linestyle='-')
-    
+    for i, a in enumerate(average_split_cycle_right):
+        plt.axvline(x=a , color='blue', linestyle='-')
     # Add phase labels to the graph
     for i, label in enumerate(phase_labels):
         if i > 0:
-            plt.text(average_split_cycle[i - 1], -2, label, color='red', ha='left')
+            plt.text(average_split_cycle_left[i - 1], -2, label, color='red', ha='left')
         else:
             plt.text(0, -2, label, color='red', ha='left')
-    for data in interp_data_cycle :
-        sns.lineplot(x=x,y=data,color="blue")
-    plt.fill_between(x, np.min(interp_data_cycle, axis=0), np.max(interp_data_cycle, axis=0), color='lightblue', alpha=0.2)
-    sns.lineplot(x=x, y=average, color='red', label='Average')
+    # for data in interp_data_cycle[0] :
+    #     sns.lineplot(x=x_left,y=data,color="red")
+    # for data in interp_data_cycle[1] :
+    #     sns.lineplot(x=x_right,y=data,color="blue")   
+    plt.fill_between(x_left, np.min(interp_data_cycle[0], axis=0), np.max(interp_data_cycle[0], axis=0), color='pink', alpha=0.2)
+    sns.lineplot(x=x_left, y=average_left, color='red', label='Average left')
+    plt.fill_between(x_right, np.min(interp_data_cycle[1], axis=0), np.max(interp_data_cycle[1], axis=0), color='lightblue', alpha=0.2)
+    sns.lineplot(x=x_right, y=average_right, color='blue', label='Average right')
     # plt.fill_between(x, average - std_devi, average + std_devi, color='lightblue', alpha=0.4, label='Standard deviation')
     plt.xlabel('Percent cycle',size=16)
     plt.ylabel('Angle (degree)',size=16, labelpad=25)
@@ -395,17 +401,24 @@ def plot_average_with_error(interp_data_cycle,split_cycle,title1):
     plt.legend()
     plt.show()
 def plot_all_data(All_data):
-    for key in All_data.keys():
-        for i in range(len(All_data[key])-1):
-                if i==0:
-                    title= key +"_flex"
-                elif i ==1 :
-                    title=key+"_ab"
-                elif i==2 :
-                    title=key+ "_rotation"
-                All_data[key][i]=interp_shampe_many_data(All_data[key][i])
+    index=0
+    list_key=list(All_data.keys())
+    while index < len(list_key) -1 :
+        key_left=list_key[index]
+        key_right= list_key[index+1]
+        for i in range(len(All_data[list_key[index]])-1) :
+            if i==0:
+                title= key_left[1:] +"_flex"
+            elif i ==1 :
+                title=key_left[1:]+"_ab"
+            elif i==2 :
+                title=key_left[1:]+ "_rotation"
+            left_leg= interp_shampe_many_data(All_data[key_left][i])
+            right_leg=interp_shampe_many_data(All_data[key_right][i])
 
-                plot_average_with_error(All_data[key][i],All_data[key][-1],title)
+            plot_average_with_error([left_leg,right_leg],[All_data[key_left][-1],All_data[key_right][-1]],title)
+        index+=2
+
 
 # This function will take the mean value of angle of each type of angle and transfer them to the csv file
 def export_data(All_data,list_file): #type of All_data is dic which out put of read_data function
@@ -532,10 +545,10 @@ def export_data(All_data,list_file): #type of All_data is dic which out put of r
 
     return data_aframe
 
-# different_time_from03=different_time[3:]
-# different_time_from03.append(different_time[6])
-# list_file=["TuanAnhRunning03.csv","TuanAnhRunning04.csv","TuanAnhRunning05.csv","TuanAnhRunning06.csv","TuanAnhRunning07.csv"]
-# # list_file=["TuanAnhRunning03.csv","TuanAnhRunning04.csv","TuanAnhRunning06.csv"]
+# different_time_from03=different_time[3:5]
+# # different_time_from03.append(different_time[6])
+# # list_file=["TuanAnhRunning03.csv","TuanAnhRunning04.csv","TuanAnhRunning05.csv","TuanAnhRunning06.csv","TuanAnhRunning07.csv"]
+# list_file=["TuanAnhRunning03.csv","TuanAnhRunning04.csv"]
 # List_to_read=["Hip","Knee"]
 # All_data= read_data(different_time_from03,list_file=list_file,List_column_to_read=List_to_read,path_left="data_run__left_leg_processed__.csv",path_right="data_run__right_leg_processed__.csv")
 # # print(All_data)
