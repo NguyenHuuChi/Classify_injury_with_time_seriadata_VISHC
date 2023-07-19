@@ -5,10 +5,10 @@ import csv
 import tkinter as tk
 from tkinter import filedialog
 
-def open_file():
-    file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
-    mass = mass_entry.get()
-    process_file(file_path,mass)
+# def open_file():
+#     file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
+#     mass = mass_entry.get()
+#     process_file(file_path,mass)
 def find_zero(ind_start,arr,mass) :
     i=ind_start
     while arr[i+5]!= 0 :
@@ -40,7 +40,7 @@ def find_not_zero(ind_start, arr):
 #---------------Function process data ----------------------------
 def process_file(file_path,mass):
     
-    mass=60
+    # mass=60
     data = pd.read_csv(file_path,skiprows=3)
     left_force=data['LT Force (N)']
     right_force=data['RT Force (N)']
@@ -226,22 +226,22 @@ def process_file(file_path,mass):
 
 
 
-# Create the main window
-window = tk.Tk()
-window.geometry("400x300")
+# # Create the main window
+# window = tk.Tk()
+# window.geometry("400x300")
 
-# Create a label and entry for user input
-mass_label = tk.Label(window, text="Enter mass (kg):")
-mass_label.pack()
-mass_entry = tk.Entry(window)
-mass_entry.pack(anchor="center",pady=10)
+# # Create a label and entry for user input
+# mass_label = tk.Label(window, text="Enter mass (kg):")
+# mass_label.pack()
+# mass_entry = tk.Entry(window)
+# mass_entry.pack(anchor="center",pady=10)
 
-# Create a button to open the file dialog
-button = tk.Button(window, text="Select CSV File", command=open_file)
-button.pack(anchor="center")
+# # Create a button to open the file dialog
+# button = tk.Button(window, text="Select CSV File", command=open_file)
+# button.pack(anchor="center")
 
-# Start the main event loop
-window.mainloop()
+# # Start the main event loop
+# window.mainloop()
 
 
 
